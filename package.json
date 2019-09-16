@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/pipopotamasu/vue-function-tester#readme",
   "devDependencies": {
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "vue": "^2.6.10"
   }
 }
