@@ -1,16 +1,20 @@
+type BaseContext = {
+  [key: string]: any
+}
+
 class Target<args, returnValue> {
-  f: Function;
+  f: (args: args) => returnValue;
   args: args;
-  constructor(f: Function, args: args) {
+  constructor(f: (args: args) => returnValue, args: args) {
     this.f = f;
     this.args = args;
   }
 
-  run<context extends { [key: string]: any }>(context: context) {
+  run<context extends BaseContext = BaseContext>(context: context) {
     const returnVal:returnValue = this.f.call(context, this.args);
-    const result = {
+    const result: BaseContext = {
       return: returnVal
-    } as { [key: string]: any }
+    }
     Object.keys(context).forEach(key => {
       result[key] = context[key]
     });
