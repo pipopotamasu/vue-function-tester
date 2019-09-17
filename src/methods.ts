@@ -1,4 +1,5 @@
 import Vue, { VueConstructor, ComponentOptions } from 'vue';
+import Target from './target';
 
 interface TargetConstuctor extends VueConstructor {
   options: ComponentOptions<Vue>
@@ -8,21 +9,19 @@ interface MockMethods {
   [key: string]: Function
 }
 
-function createMockFunction<args>(): Function {
-  return function (args: args) {
-    return {
-      run: () => console.log('run!', args)
-    }
+function createMockFunction(method: Function) {
+  return function<args = any, returnValue = any>(args: args) {
+    return new Target<args, returnValue>(method, args);
   }
 }
 
-export default function methods<args = any>(component: TargetConstuctor) {
+export default function methods(component: TargetConstuctor) {
   const methods = component.options.methods;
   if (!methods) throw new Error('Not exists method.');
 
   const mockMethods: MockMethods = {};
   Object.keys(methods).forEach(key => {
-    mockMethods[key] = createMockFunction<args>();
+    mockMethods[key] = createMockFunction(methods[key]);
   });
 
   return mockMethods;
