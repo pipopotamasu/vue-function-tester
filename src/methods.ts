@@ -11,12 +11,12 @@ interface MockMethods {
 
 function createMockFunction(method: Function) {
   return function<args = any, returnValue = any>(args: args) {
-    return new Target<args, returnValue>(method, args);
+    return new Target<args, returnValue>(method as (args: args) => returnValue, args);
   }
 }
 
-export default function methods(component: TargetConstuctor) {
-  const methods = component.options.methods;
+export default function methods(component: VueConstructor) {
+  const methods = (component as TargetConstuctor).options.methods;
   if (!methods) throw new Error('Not exists method.');
 
   const mockMethods: MockMethods = {};
