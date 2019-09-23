@@ -4,7 +4,7 @@ module.exports = {
 	testPathIgnorePatterns: ['/node_modules/'],
 	transform: {
 		'^.+\\.ts?$': 'ts-jest',
-		// '.*\\.(vue)$': 'vue-jest'
+		'.*\\.(vue)$': 'vue-jest'
 	},
 	moduleNameMapper: {
 		'^@src/(.+)': '<rootDir>/src/$1',
