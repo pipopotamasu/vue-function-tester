@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-console.log(Vue)
+const Vue = require('vue');
+
 export default Vue.extend({
   methods: {
     sayHi () {
