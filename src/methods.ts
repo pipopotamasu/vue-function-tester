@@ -1,9 +1,4 @@
-import Vue, { VueConstructor, ComponentOptions } from 'vue';
 import Result from './result';
-
-interface TargetConstuctor extends VueConstructor {
-  options: ComponentOptions<Vue>
-}
 
 type BaseContext = {
   [key: string]: any
@@ -33,8 +28,11 @@ function createMockFunction(methods: MockMethods, methodName: string) {
   }
 }
 
-export default function methods(component: VueConstructor) {
-  const methods = (component as TargetConstuctor).options.methods;
+export default function methods(component: any) {
+  const methods = component.options ?
+    component.options.methods : // VueConstructor
+    component.methods; // Not VueConstructor
+
   if (!methods) throw new Error('Not exists method.');
 
   const mockMethods: MockMethods = {};
