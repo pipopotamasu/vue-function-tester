@@ -3,12 +3,30 @@
 </template>
 
 <script lang="ts">
+// FIXME: use esmodules
 const Vue = require('vue');
 
 export default Vue.extend({
+  data () {
+    return {
+      liked: false
+    }
+  },
   methods: {
     sayHi () {
       return 'Hi';
+    },
+    sayHiWithName(firstname: string, lastname: string) {
+      return `Hi, ${firstname} ${lastname}`
+    },
+    like () {
+      (this as any).liked = true;
+    },
+    callOtherMethods () {
+      return this.otherMethod();
+    },
+    otherMethod () {
+      // called by other methods
     }
   }
 })
