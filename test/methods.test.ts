@@ -1,26 +1,19 @@
-import SomeComponent from '@test/SampleComponent.vue';
+import SampleComponent from '@test/SampleComponent.vue';
 import NoMethodComponent from '@test/NoMethodComponent.vue';
+import PlaneObjectComponent from '@test/PlaneObjectComponent.vue';
 import { methods } from '@src/index';
 
 describe('Methods', () => {
   describe('extraction', () => {
     it('extracts methods', () => {
-      const { sayHi } = methods(SomeComponent);
+      const { sayHi } = methods(SampleComponent);
       expect(typeof sayHi).toBe('function');
       expect(typeof sayHi()).toBe('object');
     });
   });
 
-  describe('no method', () => {
-    it('throws no method error', () => {
-      expect(() => {
-        methods(NoMethodComponent);
-      }).toThrow('Not exists method.');
-    });
-  });
-
   describe('mock', () => {
-    const { sayHi, sayHiWithName, like, callOtherMethods } = methods(SomeComponent);
+    const { sayHi, sayHiWithName, like, callOtherMethods } = methods(SampleComponent);
 
     describe('return', () => {
       it('returns value', () => {
@@ -51,6 +44,21 @@ describe('Methods', () => {
       it('overrides default jest.fn', () => {
         const result = callOtherMethods().run({ otherMethod: jest.fn(() => 'override') });
         expect(result.return).toBe('override');
+      });
+    });
+
+    describe('no method', () => {
+      it('throws no method error', () => {
+        expect(() => {
+          methods(NoMethodComponent);
+        }).toThrow('Not exists method.');
+      });
+    });
+
+    describe('plane object', () => {
+      it('returns value', () => {
+        const { sayHi } = methods(PlaneObjectComponent);
+        expect(sayHi().run().return).toBe('Hi');
       });
     });
   });
