@@ -9,8 +9,18 @@ const Vue = require('vue');
 export default Vue.extend({
   data () {
     return {
+      updatedCount: 0,
       liked: false
     }
+  },
+  created () {
+    this.otherMethod();
+  },
+  updated () {
+    this.updatedCount++;
+  },
+  beforeRouteEnter () {
+    this.otherMethod();
   },
   methods: {
     sayHi () {

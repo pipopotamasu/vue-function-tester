@@ -34,8 +34,8 @@ describe('Methods', () => {
       });
     });
 
-    describe('mock function', () => {
-      it('calls other method', () => {
+    describe('mock method', () => {
+      it('calls other methods', () => {
         const result = callOtherMethods().run();
         expect(result.otherMethod).toBeCalled();
         expect(result.return).toBe(undefined);
@@ -46,20 +46,21 @@ describe('Methods', () => {
         expect(result.return).toBe('override');
       });
     });
+  });
 
-    describe('no method', () => {
-      it('throws no method error', () => {
-        expect(() => {
-          methods(NoMethodComponent);
-        }).toThrow('Not exists method.');
-      });
+  describe('no method', () => {
+    it('throws no method error', () => {
+      expect(() => {
+        methods(NoMethodComponent);
+      }).toThrow('Not exists method.');
     });
+  });
 
-    describe('plane object', () => {
-      it('returns value', () => {
-        const { sayHi } = methods(PlaneObjectComponent);
-        expect(sayHi().run().return).toBe('Hi');
-      });
+  describe('plane object', () => {
+    it('returns mock function', () => {
+      const { sayHi } = methods(PlaneObjectComponent);
+      expect(typeof sayHi).toBe('function');
+      expect(sayHi().run().return).toBe('Hi');
     });
   });
 });
