@@ -3,13 +3,13 @@ class Result<returnValue> {
 
   constructor(returnVal: returnValue, context: { [key: string]: any }) {
     this._returnVal = returnVal;
-    Object.keys(context).forEach(key => {
+    Object.keys(context).forEach((key) => {
       // FIXME: generate getter
       (this as any)[key] = context[key];
     });
   }
 
-  get return () {
+  get return() {
     return this._returnVal;
   }
 }

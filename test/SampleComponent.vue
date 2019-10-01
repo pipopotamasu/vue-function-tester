@@ -7,37 +7,37 @@
 const Vue = require('vue');
 
 export default Vue.extend({
-  data () {
+  data() {
     return {
       updatedCount: 0,
       liked: false
-    }
+    };
   },
-  created () {
+  created() {
     this.otherMethod();
   },
-  updated () {
+  updated() {
     this.updatedCount++;
   },
-  beforeRouteEnter () {
+  beforeRouteEnter() {
     this.otherMethod();
   },
   methods: {
-    sayHi () {
+    sayHi() {
       return 'Hi';
     },
     sayHiWithName(firstname: string, lastname: string) {
-      return `Hi, ${firstname} ${lastname}`
+      return `Hi, ${firstname} ${lastname}`;
     },
-    like () {
+    like() {
       (this as any).liked = true;
     },
-    callOtherMethods () {
+    callOtherMethods() {
       return this.otherMethod();
     },
-    otherMethod () {
+    otherMethod() {
       // called by other methods
     }
   }
-})
+});
 </script>
