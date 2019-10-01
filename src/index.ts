@@ -6,7 +6,7 @@ const Tester = {
   methods,
   hooks,
   computed
-}
+};
 
-export  { methods, hooks, computed };
+export { methods, hooks, computed };
 export default Tester;

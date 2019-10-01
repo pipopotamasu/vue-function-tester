@@ -30,7 +30,7 @@ describe('Methods', () => {
 
     describe('context', () => {
       it('chaneges context value', () => {
-        const result = updated().run({ updatedCount: 0 })
+        const result = updated().run({ updatedCount: 0 });
         expect(result.updatedCount).toBe(1);
       });
     });
@@ -39,7 +39,9 @@ describe('Methods', () => {
   describe('additional hooks', () => {
     describe('register additional hooks', () => {
       it('returns mock function', () => {
-        const { beforeRouteEnter } = hooks(SampleComponent, ['beforeRouteEnter']);
+        const { beforeRouteEnter } = hooks(SampleComponent, [
+          'beforeRouteEnter'
+        ]);
         expect(typeof beforeRouteEnter).toBe('function');
         expect(beforeRouteEnter().run().return).toBe(undefined);
       });

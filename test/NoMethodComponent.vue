@@ -5,5 +5,5 @@
 <script lang="ts">
 const Vue = require('vue');
 
-export default Vue.extend({})
+export default Vue.extend({});
 </script>

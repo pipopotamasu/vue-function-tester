@@ -1,3 +1,3 @@
-export default function computed (component: any) {
-  console.log(component)
+export default function computed(component: any) {
+  console.log(component);
 }

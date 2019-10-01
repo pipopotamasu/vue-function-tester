@@ -13,7 +13,9 @@ describe('Methods', () => {
   });
 
   describe('mock', () => {
-    const { sayHi, sayHiWithName, like, callOtherMethods } = methods(SampleComponent);
+    const { sayHi, sayHiWithName, like, callOtherMethods } = methods(
+      SampleComponent
+    );
 
     describe('return', () => {
       it('returns value', () => {
@@ -23,13 +25,15 @@ describe('Methods', () => {
 
     describe('args', () => {
       it('returns value with args', () => {
-        expect(sayHiWithName('Ichiro', 'Suzuki').run().return).toBe('Hi, Ichiro Suzuki');
+        expect(sayHiWithName('Ichiro', 'Suzuki').run().return).toBe(
+          'Hi, Ichiro Suzuki'
+        );
       });
     });
 
     describe('context', () => {
       it('chaneges context value', () => {
-        const result = like().run({ liked: false })
+        const result = like().run({ liked: false });
         expect(result.liked).toBe(true);
       });
     });
@@ -42,7 +46,9 @@ describe('Methods', () => {
       });
 
       it('overrides default jest.fn', () => {
-        const result = callOtherMethods().run({ otherMethod: jest.fn(() => 'override') });
+        const result = callOtherMethods().run({
+          otherMethod: jest.fn(() => 'override')
+        });
         expect(result.return).toBe('override');
       });
     });

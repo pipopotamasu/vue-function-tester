@@ -6,6 +6,8 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
+    "eslint": "eslint src test --ext js,ts,vue",
+    "eslint:fix": "yarn eslint --fix",
     "test": "NODE_ENV=test jest --runInBand",
     "test:watch": "NODE_ENV=test jest --runInBand --watch"
   },
@@ -30,12 +32,21 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.5",
+    "@typescript-eslint/eslint-plugin": "^2.3.2",
+    "@typescript-eslint/parser": "^2.3.2",
     "babel-core": "^6.26.3",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-vue": "^5.2.3",
     "jest": "^24.9.0",
+    "prettier": "^1.18.2",
     "ts-jest": "^24.1.0",
     "tslib": "^1.10.0",
     "typescript": "^3.6.3",
     "vue": "^2.6.10",
+    "vue-eslint-parser": "^6.0.4",
     "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.10"
   }
