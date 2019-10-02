@@ -1,6 +1,6 @@
-import SampleComponent from '@test/SampleComponent.vue';
-import NoMethodComponent from '@test/NoMethodComponent.vue';
-import PlaneObjectComponent from '@test/PlaneObjectComponent.vue';
+import SampleComponent from '@spec/SampleComponent.vue';
+import NoMethodComponent from '@spec/NoMethodComponent.vue';
+import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
 import { methods } from '@src/index';
 
 describe('Methods', () => {
