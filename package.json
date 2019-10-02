@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "eslint": "eslint src test --ext js,ts,vue",
+    "eslint": "eslint src spec --ext js,ts,vue",
     "eslint:fix": "yarn eslint --fix",
     "test": "NODE_ENV=test jest --runInBand",
     "test:watch": "NODE_ENV=test jest --runInBand --watch"
