@@ -1,6 +1,6 @@
-import SampleComponent from '@test/SampleComponent.vue';
-import NoMethodComponent from '@test/NoMethodComponent.vue';
-import PlaneObjectComponent from '@test/PlaneObjectComponent.vue';
+import SampleComponent from '@spec/SampleComponent.vue';
+import NoMethodComponent from '@spec/NoMethodComponent.vue';
+import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
 import { hooks } from '@src/index';
 
 describe('Methods', () => {
@@ -42,8 +42,10 @@ describe('Methods', () => {
         const { beforeRouteEnter } = hooks(SampleComponent, [
           'beforeRouteEnter'
         ]);
+        const next = jest.fn();
         expect(typeof beforeRouteEnter).toBe('function');
-        expect(beforeRouteEnter().run().return).toBe(undefined);
+        beforeRouteEnter('', '', next).run();
+        expect(next).toBeCalled();
       });
     });
 

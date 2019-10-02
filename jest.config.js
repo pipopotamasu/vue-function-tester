@@ -9,9 +9,9 @@ module.exports = {
 	moduleNameMapper: {
 		'^@src/(.+)': '<rootDir>/src/$1',
 		'^vue$': 'vue/dist/vue.common.js',
-		'^@test/(.+)': '<rootDir>/test/$1'
+		'^@spec/(.+)': '<rootDir>/spec/$1'
 	},
-	testMatch:  ['<rootDir>/test/**/?(*.)(spec|test).(js|ts)?(x)'],
+	testMatch:  ['<rootDir>/spec/**/?(*.)(spec|test).(js|ts)?(x)'],
 	collectCoverageFrom: [
 		'<rootDir>/src/**/*.ts'
 	],

@@ -1,6 +1,6 @@
-import SampleComponent from '@test/SampleComponent.vue';
-import NoMethodComponent from '@test/NoMethodComponent.vue';
-import PlaneObjectComponent from '@test/PlaneObjectComponent.vue';
+import SampleComponent from '@spec/SampleComponent.vue';
+import NoMethodComponent from '@spec/NoMethodComponent.vue';
+import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
 import { methods } from '@src/index';
 
 describe('Methods', () => {
@@ -13,20 +13,20 @@ describe('Methods', () => {
   });
 
   describe('mock', () => {
-    const { sayHi, sayHiWithName, like, callOtherMethods } = methods(
+    const { sayHi, sayHiWithName, like, callOtherMethod, emitEvent } = methods(
       SampleComponent
     );
 
     describe('return', () => {
       it('returns value', () => {
-        expect(sayHi().run().return).toBe('Hi');
+        expect(sayHi().run().return).toBe('Hi!');
       });
     });
 
     describe('args', () => {
       it('returns value with args', () => {
         expect(sayHiWithName('Ichiro', 'Suzuki').run().return).toBe(
-          'Hi, Ichiro Suzuki'
+          'Hi, Ichiro Suzuki!'
         );
       });
     });
@@ -40,16 +40,21 @@ describe('Methods', () => {
 
     describe('mock method', () => {
       it('calls other methods', () => {
-        const result = callOtherMethods().run();
+        const result = callOtherMethod().run();
         expect(result.otherMethod).toBeCalled();
         expect(result.return).toBe(undefined);
       });
 
       it('overrides default jest.fn', () => {
-        const result = callOtherMethods().run({
+        const result = callOtherMethod().run({
           otherMethod: jest.fn(() => 'override')
         });
         expect(result.return).toBe('override');
+      });
+
+      it('emits event', () => {
+        const result = emitEvent().run();
+        expect(result.$emit).toBeCalledWith('some-event', 'value');
       });
     });
   });
