@@ -42,8 +42,10 @@ describe('Methods', () => {
         const { beforeRouteEnter } = hooks(SampleComponent, [
           'beforeRouteEnter'
         ]);
+        const next = jest.fn();
         expect(typeof beforeRouteEnter).toBe('function');
-        expect(beforeRouteEnter().run().return).toBe(undefined);
+        beforeRouteEnter('', '', next).run();
+        expect(next).toBeCalled();
       });
     });
 

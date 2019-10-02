@@ -19,24 +19,27 @@ export default Vue.extend({
   updated() {
     this.updatedCount++;
   },
-  beforeRouteEnter() {
-    this.otherMethod();
+  beforeRouteEnter(_to: string, _from: string, next: Function) {
+    next();
   },
   methods: {
     sayHi() {
-      return 'Hi';
+      return 'Hi!';
     },
     sayHiWithName(firstname: string, lastname: string) {
-      return `Hi, ${firstname} ${lastname}`;
+      return `Hi, ${firstname} ${lastname}!`;
     },
     like() {
       (this as any).liked = true;
     },
-    callOtherMethods() {
+    callOtherMethod() {
       return this.otherMethod();
     },
     otherMethod() {
       // called by other methods
+    },
+    emitEvent() {
+      (this as any).$emit('some-event', 'value');
     }
   }
 });
