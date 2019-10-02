@@ -8,7 +8,7 @@ Supporting...
 - methods
 - lifecycle hooks
 - computed (comming soon)
-- vuex functions (not yet)
+- vuex functions (comming not so far)
   - actions
   - mutations
   - getters
@@ -125,6 +125,9 @@ export default {
 });
 
 // yourHooksTest.spec.js
+import SampleComponent from './SampleComponent.vue';
+import { hooks } from 'vue-function-tester';
+
 describe('Lifecycle Hooks', () => {
   const { created, updated, beforeRouteEnter } = hooks(SampleComponent);
 
