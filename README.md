@@ -88,7 +88,7 @@ describe('Methods', () => {
     expect(result.otherMethod).toBeCalled();
   });
 
-  it('overrides default jest.fn', () => {
+  it('overrides default jest.fn()', () => {
     const result = callOtherMethod().run({
       otherMethod: jest.fn(() => 'override')
     });
