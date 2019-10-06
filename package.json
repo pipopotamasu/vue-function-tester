@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build tsconfig.build.json",
     "prepublishOnly": "npm run build",
     "eslint": "eslint src spec --ext js,ts,vue",
     "eslint:fix": "yarn eslint --fix",
