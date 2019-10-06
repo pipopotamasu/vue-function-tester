@@ -3,8 +3,7 @@
 </template>
 
 <script lang="ts">
-// FIXME: use esmodules
-const Vue = require('vue');
+import Vue from 'vue';
 
 export default Vue.extend({
   data() {
@@ -19,9 +18,10 @@ export default Vue.extend({
   updated() {
     this.updatedCount++;
   },
-  beforeRouteEnter(_to: string, _from: string, next: Function) {
-    next();
-  },
+  // TODO: resolve typescript issue
+  // beforeRouteEnter(_to: string, _from: string, next: Function) {
+  //   next();
+  // },
   methods: {
     sayHi() {
       return 'Hi!';
@@ -30,7 +30,7 @@ export default Vue.extend({
       return `Hi, ${firstname} ${lastname}!`;
     },
     like() {
-      (this as any).liked = true;
+      this.liked = true;
     },
     callOtherMethod() {
       return this.otherMethod();
@@ -39,7 +39,7 @@ export default Vue.extend({
       // called by other methods
     },
     emitEvent() {
-      (this as any).$emit('some-event', 'value');
+      this.$emit('some-event', 'value');
     }
   }
 });

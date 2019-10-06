@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-const Vue = require('vue');
+import Vue from 'vue';
 
 export default Vue.extend({});
 </script>
