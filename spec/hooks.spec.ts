@@ -73,4 +73,11 @@ describe('Methods', () => {
       expect(created().run().return).toBe(undefined);
     });
   });
+
+  describe('alias', () => {
+    it('returns value by alias "r"', () => {
+      const { created } = hooks(SampleComponent);
+      expect(created().r().return).toBe(undefined);
+    });
+  });
 });

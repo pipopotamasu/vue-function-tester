@@ -14,16 +14,18 @@ const baseContext: BaseContext = {
 
 function createMockFunction(methods: MockMethods, methodName: string) {
   return function(...args: any) {
-    return {
-      run: (injectContext: Record<string, any>) => {
-        Object.keys(methods).forEach((k) => {
-          if (methodName !== k) methods[k] = jest.fn();
-        });
-        const context = Object.assign({}, baseContext, methods, injectContext);
-        const returnVal = methods[methodName].apply(context, args);
+    const run = (injectContext: Record<string, any>) => {
+      Object.keys(methods).forEach((k) => {
+        if (methodName !== k) methods[k] = jest.fn();
+      });
+      const context = Object.assign({}, baseContext, methods, injectContext);
+      const returnVal = methods[methodName].apply(context, args);
 
-        return new Result(returnVal, context);
-      }
+      return new Result(returnVal, context);
+    };
+    return {
+      run,
+      r: run
     };
   };
 }
