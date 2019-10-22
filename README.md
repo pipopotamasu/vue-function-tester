@@ -28,7 +28,7 @@ $ yarn add -D vue-function-tester
 ### methods
 See [spec](https://github.com/pipopotamasu/vue-function-tester/blob/master/spec/methods.spec.ts) if you want more detailed examples.
 
-```
+```js
 // SampleComponent.vue
 export default {
   data() {
@@ -105,7 +105,7 @@ describe('Methods', () => {
 ### lifecycle hooks
 See [spec](https://github.com/pipopotamasu/vue-function-tester/blob/master/spec/hooks.spec.ts) if you want more detailed examples.
 
-```
+```js
 // SampleComponent.vue
 export default {
   data() {
