@@ -25,17 +25,19 @@ const baseContext: BaseContext = {
 
 function createMockFunction(hooks: MockHooks, methodName: string) {
   return function(...args: any) {
+    const run = (injectContext: Record<string, any>) => {
+      Object.keys(hooks).forEach((k) => {
+        if (methodName !== k) hooks[k] = jest.fn();
+      });
+
+      const context = Object.assign({}, baseContext, hooks, injectContext);
+      const returnVal = hooks[methodName].apply(context, args);
+
+      return new Result(returnVal, context);
+    };
     return {
-      run: (injectContext: Record<string, any>) => {
-        Object.keys(hooks).forEach((k) => {
-          if (methodName !== k) hooks[k] = jest.fn();
-        });
-
-        const context = Object.assign({}, baseContext, hooks, injectContext);
-        const returnVal = hooks[methodName].apply(context, args);
-
-        return new Result(returnVal, context);
-      }
+      run,
+      r: run
     };
   };
 }

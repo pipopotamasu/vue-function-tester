@@ -74,4 +74,12 @@ describe('Methods', () => {
       expect(sayHi().run().return).toBe('Hi');
     });
   });
+
+  describe('alias', () => {
+    const { sayHi } = methods(SampleComponent);
+
+    it('returns value by alias "r"', () => {
+      expect(sayHi().r().return).toBe('Hi!');
+    });
+  });
 });
