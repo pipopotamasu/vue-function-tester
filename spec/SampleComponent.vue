@@ -12,6 +12,12 @@ export default Vue.extend({
       liked: false
     };
   },
+  props: {
+    name: {
+      type: String,
+      required: true
+    }
+  },
   created() {
     this.otherMethod();
   },
@@ -22,6 +28,19 @@ export default Vue.extend({
   // beforeRouteEnter(_to: string, _from: string, next: Function) {
   //   next();
   // },
+  computed: {
+    sayHello() {
+      return 'Hello!';
+    },
+    displayName: {
+      get () {
+        return `Mr. ${this.name}`;
+      },
+      set (newName: string) {
+        this.$emit('change-name', newName)
+      }
+    }
+  },
   methods: {
     sayHi() {
       return 'Hi!';
