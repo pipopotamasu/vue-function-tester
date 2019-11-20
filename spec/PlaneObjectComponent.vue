@@ -9,7 +9,7 @@ export default {
       return 'Hello';
     }
   },
-  created() {},
+  created() {}, // eslint-disable-line @typescript-eslint/no-empty-function
   methods: {
     sayHi() {
       return 'Hi';
