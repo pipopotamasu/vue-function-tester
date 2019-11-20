@@ -12,10 +12,10 @@ const baseContext: BaseContext = {
   $emit: jest.fn()
 };
 
-function createMockFunction (targetFn: Function) {
+function createMockFunction(targetFn: Function) {
   return function(...args: any) {
     const run = (injectContext: Record<string, any>) => {
-      const context = Object.assign({}, baseContext, computed, injectContext);
+      const context = Object.assign({}, baseContext, injectContext);
       const returnVal = targetFn.apply(context, args);
 
       return new Result(returnVal, context);
@@ -24,7 +24,7 @@ function createMockFunction (targetFn: Function) {
       run,
       r: run
     };
-  }
+  };
 }
 
 function createMock(computed: MockComputed, computedName: string) {
@@ -32,7 +32,7 @@ function createMock(computed: MockComputed, computedName: string) {
   if (typeof target === 'function') {
     return createMockFunction(target);
   } else if (typeof target === 'object') {
-    const mockObject: { get?: Function, set?: Function } = {};
+    const mockObject: { get?: Function; set?: Function } = {};
     if (target.get) {
       mockObject.get = createMockFunction(target.get);
     }

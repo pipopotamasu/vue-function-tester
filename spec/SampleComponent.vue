@@ -6,23 +6,17 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  data() {
-    return {
-      updatedCount: 0,
-      liked: false
-    };
-  },
   props: {
     name: {
       type: String,
       required: true
     }
   },
-  created() {
-    this.otherMethod();
-  },
-  updated() {
-    this.updatedCount++;
+  data() {
+    return {
+      updatedCount: 0,
+      liked: false
+    };
   },
   // TODO: resolve typescript issue
   // beforeRouteEnter(_to: string, _from: string, next: Function) {
@@ -33,13 +27,19 @@ export default Vue.extend({
       return 'Hello!';
     },
     displayName: {
-      get () {
+      get() {
         return `Mr. ${this.name}`;
       },
-      set (newName: string) {
-        this.$emit('change-name', newName)
+      set(newName: string) {
+        this.$emit('change-name', newName);
       }
     }
+  },
+  created() {
+    this.otherMethod();
+  },
+  updated() {
+    this.updatedCount++;
   },
   methods: {
     sayHi() {
