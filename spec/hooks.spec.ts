@@ -1,5 +1,5 @@
 import SampleComponent from '@spec/SampleComponent.vue';
-import NoMethodComponent from '@spec/NoMethodComponent.vue';
+import BlankComponent from '@spec/BlankComponent.vue';
 import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
 import { hooks } from '@src/index';
 
@@ -61,7 +61,7 @@ describe('Methods', () => {
   describe('no method', () => {
     it('throws no hook error', () => {
       expect(() => {
-        hooks(NoMethodComponent);
+        hooks(BlankComponent);
       }).toThrow('Not exists hook.');
     });
   });

@@ -6,11 +6,34 @@
 import Vue from 'vue';
 
 export default Vue.extend({
+  props: {
+    name: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       updatedCount: 0,
       liked: false
     };
+  },
+  // TODO: resolve typescript issue
+  // beforeRouteEnter(_to: string, _from: string, next: Function) {
+  //   next();
+  // },
+  computed: {
+    sayHello() {
+      return 'Hello!';
+    },
+    displayName: {
+      get() {
+        return `Mr. ${this.name}`;
+      },
+      set(newName: string) {
+        this.$emit('change-name', newName);
+      }
+    }
   },
   created() {
     this.otherMethod();
@@ -18,10 +41,6 @@ export default Vue.extend({
   updated() {
     this.updatedCount++;
   },
-  // TODO: resolve typescript issue
-  // beforeRouteEnter(_to: string, _from: string, next: Function) {
-  //   next();
-  // },
   methods: {
     sayHi() {
       return 'Hi!';

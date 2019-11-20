@@ -1,5 +1,5 @@
 import SampleComponent from '@spec/SampleComponent.vue';
-import NoMethodComponent from '@spec/NoMethodComponent.vue';
+import BlankComponent from '@spec/BlankComponent.vue';
 import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
 import { methods } from '@src/index';
 
@@ -62,7 +62,7 @@ describe('Methods', () => {
   describe('no method', () => {
     it('throws no method error', () => {
       expect(() => {
-        methods(NoMethodComponent);
+        methods(BlankComponent);
       }).toThrow('Not exists method.');
     });
   });
