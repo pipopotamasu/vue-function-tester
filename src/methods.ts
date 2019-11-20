@@ -1,16 +1,9 @@
 import Result from './result';
-
-type BaseContext = {
-  [key: string]: any;
-};
+import { createBaseContext } from './uitls/context';
 
 interface MockMethods {
   [key: string]: Function;
 }
-
-const baseContext: BaseContext = {
-  $emit: jest.fn()
-};
 
 function createMockFunction(methods: MockMethods, methodName: string) {
   return function(...args: any) {
@@ -18,7 +11,7 @@ function createMockFunction(methods: MockMethods, methodName: string) {
       Object.keys(methods).forEach((k) => {
         if (methodName !== k) methods[k] = jest.fn();
       });
-      const context = Object.assign({}, baseContext, methods, injectContext);
+      const context = Object.assign({}, createBaseContext(), methods, injectContext);
       const returnVal = methods[methodName].apply(context, args);
 
       return new Result(returnVal, context);
