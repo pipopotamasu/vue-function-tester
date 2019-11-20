@@ -3,6 +3,7 @@ module.exports = {
 	moduleFileExtensions: ['js', 'ts', 'vue'],
 	testPathIgnorePatterns: ['/node_modules/'],
 	transform: {
+		'^.+\\.js$': 'babel-jest',
 		'^.+\\.ts?$': 'ts-jest',
 		'.*\\.(vue)$': 'vue-jest'
 	},

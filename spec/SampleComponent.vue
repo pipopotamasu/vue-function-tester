@@ -2,7 +2,7 @@
   <div>test</div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -18,10 +18,9 @@ export default Vue.extend({
       liked: false
     };
   },
-  // TODO: resolve typescript issue
-  // beforeRouteEnter(_to: string, _from: string, next: Function) {
-  //   next();
-  // },
+  beforeRouteEnter(_to, _from, next) {
+    next();
+  },
   computed: {
     sayHello() {
       return 'Hello!';
@@ -30,7 +29,7 @@ export default Vue.extend({
       get() {
         return `Mr. ${this.name}`;
       },
-      set(newName: string) {
+      set(newName) {
         this.$emit('change-name', newName);
       }
     }
@@ -45,7 +44,7 @@ export default Vue.extend({
     sayHi() {
       return 'Hi!';
     },
-    sayHiWithName(firstname: string, lastname: string) {
+    sayHiWithName(firstname, lastname) {
       return `Hi, ${firstname} ${lastname}!`;
     },
     like() {

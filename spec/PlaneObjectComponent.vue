@@ -2,7 +2,7 @@
   <div>test</div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   computed: {
     sayHello() {
