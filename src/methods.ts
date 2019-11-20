@@ -11,7 +11,12 @@ function createMockFunction(methods: MockMethods, methodName: string) {
       Object.keys(methods).forEach((k) => {
         if (methodName !== k) methods[k] = jest.fn();
       });
-      const context = Object.assign({}, createBaseContext(), methods, injectContext);
+      const context = Object.assign(
+        {},
+        createBaseContext(),
+        methods,
+        injectContext
+      );
       const returnVal = methods[methodName].apply(context, args);
 
       return new Result(returnVal, context);
@@ -24,9 +29,12 @@ function createMockFunction(methods: MockMethods, methodName: string) {
 }
 
 export default function methods(component: any) {
+  if (typeof component !== 'object' && typeof component !== 'function') {
+    throw new Error('Illegal component. component must be object or function.');
+  }
   const methods = component.options
     ? component.options.methods // VueConstructor
-    : component.methods; // Not VueConstructor
+    : component?.methods; // Not VueConstructor
 
   if (!methods) throw new Error('Not exists method.');
 

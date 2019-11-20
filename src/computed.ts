@@ -40,9 +40,12 @@ function createMock(computed: MockComputed, computedName: string) {
 }
 
 export default function computed(component: any) {
+  if (typeof component !== 'object' && typeof component !== 'function') {
+    throw new Error('Illegal component. component must be object or function.');
+  }
   const computed = component.options
     ? component.options.computed // VueConstructor
-    : component.computed; // Not VueConstructor
+    : component?.computed; // Not VueConstructor
 
   if (!computed) throw new Error('Not exists method.');
 

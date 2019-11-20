@@ -1,6 +1,7 @@
 import SampleComponent from '@spec/SampleComponent.vue';
 import BlankComponent from '@spec/BlankComponent.vue';
 import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
+import InvalidComponent from '@spec/InvalidComponent.vue';
 import { hooks } from '@src/index';
 
 describe('Methods', () => {
@@ -62,6 +63,14 @@ describe('Methods', () => {
       expect(() => {
         hooks(BlankComponent);
       }).toThrow('Not exists hook.');
+    });
+  });
+
+  describe('invalid component', () => {
+    it('throws no invalid component error', () => {
+      expect(() => {
+        hooks(InvalidComponent);
+      }).toThrow('Illegal component. component must be object or function.');
     });
   });
 
