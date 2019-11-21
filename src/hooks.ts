@@ -13,18 +13,23 @@ const LIFECYCLE_HOOKS = [
 ];
 
 interface MockFunction {
-  (...args: any): any,
-  run: Function,
-  r: Function
+  (...args: any): any;
+  run: Function;
+  r: Function;
 }
 interface MockFunctions {
   [key: string]: MockFunction | ReturnType<typeof jest.fn>;
 }
 
-function createMockFunction(funcs: { [key: string]: Function }, funcName: string) {
+function createMockFunction(
+  funcs: { [key: string]: Function },
+  funcName: string
+) {
   const mockFuncs = { ...funcs } as MockFunctions;
 
-  const createRunner = (args: any[] | null = null) => (injectContext: Record<string, any>) => {
+  const createRunner = (args: any[] | null = null) => (
+    injectContext: Record<string, any>
+  ) => {
     Object.keys(funcs).forEach((k) => {
       if (funcName !== k) mockFuncs[k] = jest.fn();
     });
@@ -34,17 +39,17 @@ function createMockFunction(funcs: { [key: string]: Function }, funcName: string
       mockFuncs,
       injectContext
     );
-    const returnVal = funcs[funcName].apply(context, args ? args: arguments);
+    const returnVal = funcs[funcName].apply(context, args ? args : []);
 
     return new Result(returnVal, context);
-  }
+  };
 
   const targetMockFunc: MockFunction = (...args: any[]) => {
     return {
       run: createRunner(args),
       r: createRunner(args)
     };
-  }
+  };
   targetMockFunc.run = targetMockFunc.r = createRunner();
   return targetMockFunc;
 }

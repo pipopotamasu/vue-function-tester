@@ -2,17 +2,22 @@ import Result from './result';
 import { createBaseContext } from './uitls/context';
 
 interface MockFunction {
-  (...args: any): any,
-  run: Function,
-  r: Function
+  (...args: any): any;
+  run: Function;
+  r: Function;
 }
 interface MockMethods {
   [key: string]: MockFunction | ReturnType<typeof jest.fn>;
 }
 
-function createMockFunction(methods: { [key: string]: Function }, methodName: string) {
+function createMockFunction(
+  methods: { [key: string]: Function },
+  methodName: string
+) {
   const mockMethods = { ...methods } as MockMethods;
-  const createRunner = (args: any[] | null = null) => (injectContext: Record<string, any>) => {
+  const createRunner = (args: any[] | null = null) => (
+    injectContext: Record<string, any>
+  ) => {
     Object.keys(methods).forEach((k) => {
       if (methodName !== k) mockMethods[k] = jest.fn();
     });
@@ -22,17 +27,17 @@ function createMockFunction(methods: { [key: string]: Function }, methodName: st
       mockMethods,
       injectContext
     );
-    const returnVal = methods[methodName].apply(context, args ? args: arguments);
+    const returnVal = methods[methodName].apply(context, args ? args : []);
 
     return new Result(returnVal, context);
-  }
+  };
 
   const mockFn: MockFunction = (...args: any[]) => {
     return {
       run: createRunner(args),
       r: createRunner(args)
     };
-  }
+  };
   mockFn.run = mockFn.r = createRunner();
   return mockFn;
 }

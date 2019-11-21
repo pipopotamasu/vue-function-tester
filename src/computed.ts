@@ -2,14 +2,14 @@ import Result from './result';
 import { createBaseContext } from './uitls/context';
 
 interface MockFunction {
-  (...args: any): any,
-  run: Function,
-  r: Function
+  (...args: any): any;
+  run: Function;
+  r: Function;
 }
 
 interface MockObject {
-  get?: Function,
-  set?: Function
+  get?: Function;
+  set?: Function;
 }
 
 interface MockComputed {
@@ -17,22 +17,20 @@ interface MockComputed {
 }
 
 function createMockFunction(targetFn: Function) {
-  const createRunner = (args: any[] | null = null) => (injectContext: Record<string, any>) => {
-    const context = Object.assign(
-      {},
-      createBaseContext(),
-      injectContext
-    );
-    const returnVal = targetFn.apply(context, args ? args: arguments);
+  const createRunner = (args: any[] | null = null) => (
+    injectContext: Record<string, any>
+  ) => {
+    const context = Object.assign({}, createBaseContext(), injectContext);
+    const returnVal = targetFn.apply(context, args ? args : []);
 
     return new Result(returnVal, context);
-  }
+  };
   const mockFunc: MockFunction = (...args: any[]) => {
     return {
       run: createRunner(args),
       r: createRunner(args)
     };
-  }
+  };
   mockFunc.run = mockFunc.r = createRunner();
   return mockFunc;
 }
