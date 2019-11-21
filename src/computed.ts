@@ -1,21 +1,14 @@
 import Result from './result';
-
-type BaseContext = {
-  [key: string]: any;
-};
+import { createBaseContext } from './uitls/context';
 
 interface MockComputed {
   [key: string]: any;
 }
 
-const baseContext: BaseContext = {
-  $emit: jest.fn()
-};
-
 function createMockFunction(targetFn: Function) {
   return function(...args: any) {
     const run = (injectContext: Record<string, any>) => {
-      const context = Object.assign({}, baseContext, injectContext);
+      const context = Object.assign({}, createBaseContext(), injectContext);
       const returnVal = targetFn.apply(context, args);
 
       return new Result(returnVal, context);
@@ -47,9 +40,12 @@ function createMock(computed: MockComputed, computedName: string) {
 }
 
 export default function computed(component: any) {
+  if (typeof component !== 'object' && typeof component !== 'function') {
+    throw new Error('Illegal component. component must be object or function.');
+  }
   const computed = component.options
     ? component.options.computed // VueConstructor
-    : component.computed; // Not VueConstructor
+    : component?.computed; // Not VueConstructor
 
   if (!computed) throw new Error('Not exists method.');
 

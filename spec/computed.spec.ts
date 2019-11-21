@@ -1,6 +1,7 @@
 import SampleComponent from '@spec/SampleComponent.vue';
 import BlankComponent from '@spec/BlankComponent.vue';
 import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
+import InvalidComponent from '@spec/InvalidComponent.vue';
 import { computed } from '@src/index';
 
 describe('Computed', () => {
@@ -62,6 +63,14 @@ describe('Computed', () => {
       expect(() => {
         computed(BlankComponent);
       }).toThrow('Not exists method.');
+    });
+  });
+
+  describe('invalid component', () => {
+    it('throws no invalid component error', () => {
+      expect(() => {
+        computed(InvalidComponent);
+      }).toThrow('Illegal component. component must be object or function.');
     });
   });
 
