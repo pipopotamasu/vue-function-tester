@@ -83,9 +83,18 @@ describe('Methods', () => {
   });
 
   describe('alias', () => {
+    const { created } = hooks(SampleComponent);
+
     it('returns value by alias "r"', () => {
-      const { created } = hooks(SampleComponent);
       expect(created().r().return).toBe(undefined);
+    });
+
+    it('returns value by function property alias "run"', () => {
+      expect(created.run().return).toBe(undefined);
+    });
+
+    it('returns value by function property alias "r"', () => {
+      expect(created.r().return).toBe(undefined);
     });
   });
 });

@@ -80,5 +80,13 @@ describe('Computed', () => {
     it('returns value by alias "r"', () => {
       expect(sayHello().r().return).toBe('Hello!');
     });
+
+    it('returns value by function property alias "run"', () => {
+      expect(sayHello.run().return).toBe('Hello!');
+    });
+
+    it('returns value by function property alias "r"', () => {
+      expect(sayHello.r().return).toBe('Hello!');
+    });
   });
 });

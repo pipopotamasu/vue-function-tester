@@ -90,5 +90,13 @@ describe('Methods', () => {
     it('returns value by alias "r"', () => {
       expect(sayHi().r().return).toBe('Hi!');
     });
+
+    it('returns value by function property alias "run"', () => {
+      expect(sayHi.run().return).toBe('Hi!');
+    });
+
+    it('returns value by function property alias "r"', () => {
+      expect(sayHi.r().return).toBe('Hi!');
+    });
   });
 });

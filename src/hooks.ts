@@ -12,32 +12,46 @@ const LIFECYCLE_HOOKS = [
   'destroyed'
 ];
 
-interface MockHooks {
-  [key: string]: Function;
+interface MockFunction {
+  (...args: any): any;
+  run: Function;
+  r: Function;
+}
+interface MockFunctions {
+  [key: string]: MockFunction | ReturnType<typeof jest.fn>;
 }
 
-function createMockFunction(hooks: MockHooks, methodName: string) {
-  return function(...args: any) {
-    const run = (injectContext: Record<string, any>) => {
-      Object.keys(hooks).forEach((k) => {
-        if (methodName !== k) hooks[k] = jest.fn();
-      });
+function createMockFunction(
+  funcs: { [key: string]: Function },
+  funcName: string
+) {
+  const mockFuncs = { ...funcs } as MockFunctions;
 
-      const context = Object.assign(
-        {},
-        createBaseContext(),
-        hooks,
-        injectContext
-      );
-      const returnVal = hooks[methodName].apply(context, args);
+  const createRunner = (args: any[] | null = null) => (
+    injectContext: Record<string, any>
+  ) => {
+    Object.keys(funcs).forEach((k) => {
+      if (funcName !== k) mockFuncs[k] = jest.fn();
+    });
+    const context = Object.assign(
+      {},
+      createBaseContext(),
+      mockFuncs,
+      injectContext
+    );
+    const returnVal = funcs[funcName].apply(context, args ? args : []);
 
-      return new Result(returnVal, context);
-    };
+    return new Result(returnVal, context);
+  };
+
+  const targetMockFunc: MockFunction = (...args: any[]) => {
     return {
-      run,
-      r: run
+      run: createRunner(args),
+      r: createRunner(args)
     };
   };
+  targetMockFunc.run = targetMockFunc.r = createRunner();
+  return targetMockFunc;
 }
 
 export default function hooks(component: any, additionalHooks: string[] = []) {
@@ -72,7 +86,7 @@ export default function hooks(component: any, additionalHooks: string[] = []) {
     ? component.options.methods // VueConstructor
     : component?.methods; // Not VueConstructor
 
-  const mockHookes: MockHooks = {};
+  const mockHookes: { [key: string]: MockFunction } = {};
   Object.keys(hooks).forEach((key) => {
     mockHookes[key] = createMockFunction({ ...hooks, ...methods }, key);
   });

@@ -1,23 +1,38 @@
 import Result from './result';
 import { createBaseContext } from './uitls/context';
 
+interface MockFunction {
+  (...args: any): any;
+  run: Function;
+  r: Function;
+}
+
+interface MockObject {
+  get?: Function;
+  set?: Function;
+}
+
 interface MockComputed {
   [key: string]: any;
 }
 
 function createMockFunction(targetFn: Function) {
-  return function(...args: any) {
-    const run = (injectContext: Record<string, any>) => {
-      const context = Object.assign({}, createBaseContext(), injectContext);
-      const returnVal = targetFn.apply(context, args);
+  const createRunner = (args: any[] | null = null) => (
+    injectContext: Record<string, any>
+  ) => {
+    const context = Object.assign({}, createBaseContext(), injectContext);
+    const returnVal = targetFn.apply(context, args ? args : []);
 
-      return new Result(returnVal, context);
-    };
+    return new Result(returnVal, context);
+  };
+  const mockFunc: MockFunction = (...args: any[]) => {
     return {
-      run,
-      r: run
+      run: createRunner(args),
+      r: createRunner(args)
     };
   };
+  mockFunc.run = mockFunc.r = createRunner();
+  return mockFunc;
 }
 
 function createMock(computed: MockComputed, computedName: string) {
@@ -25,7 +40,7 @@ function createMock(computed: MockComputed, computedName: string) {
   if (typeof target === 'function') {
     return createMockFunction(target);
   } else if (typeof target === 'object') {
-    const mockObject: { get?: Function; set?: Function } = {};
+    const mockObject: MockObject = {};
     if (target.get) {
       mockObject.get = createMockFunction(target.get);
     }
