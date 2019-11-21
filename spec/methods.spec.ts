@@ -87,17 +87,16 @@ describe('Methods', () => {
   describe('alias', () => {
     const { sayHi } = methods(SampleComponent);
 
+    it('returns value by alias "r"', () => {
+      expect(sayHi().r().return).toBe('Hi!');
+    });
+
     it('returns value by function property alias "run"', () => {
       expect(sayHi.run().return).toBe('Hi!');
     });
 
     it('returns value by function property alias "r"', () => {
       expect(sayHi.r().return).toBe('Hi!');
-    });
-
-
-    it('returns value by run alias "r"', () => {
-      expect(sayHi().r().return).toBe('Hi!');
     });
   });
 });
