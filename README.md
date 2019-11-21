@@ -1,17 +1,14 @@
 # vue-function-tester
-vue-function-tester makes Vue.js function tests easier by providing mock functions and helper objects.
+vue-function-tester makes Vue.js function tests easier and shorter by providing mock functions and helper objects.
 
 ## Features
-Providing mock functions and helper objects from your Vue.js components for testing and they help to reduce setup processes.
+Providing mock functions and helper objects from your Vue.js components for testing and they help to reduce steps.
 
 Supporting...
 - methods
 - lifecycle hooks
-- computed (comming soon)
-- vuex functions (comming not so far)
-  - actions
-  - mutations
-  - getters
+- computed
+- watch (comming soon)
 
 vue-function-helper dependents on [Jest](https://jestjs.io).
 
@@ -148,7 +145,51 @@ describe('Lifecycle Hooks', () => {
 ```
 
 ### computed
-comming soon...
+See [spec](https://github.com/pipopotamasu/vue-function-tester/blob/master/spec/computed.spec.ts) if you want more detailed examples.
+
+```js
+// SampleComponent.vue
+export default {
+  computed: {
+    sayHello() {
+      return 'Hello!';
+    },
+    displayName: {
+      get() {
+        return `Mr. ${this.name}`;
+      },
+      set(newName) {
+        this.$emit('change-name', newName);
+      }
+    }
+  },
+});
+
+// yourComputedTest.spec.js
+import SampleComponent from './SampleComponent.vue';
+import { computed } from 'vue-function-tester';
+
+describe('Computed', () => {
+  const { sayHello, displayName } = computed(SampleComponent);
+
+  it('returns value', () => {
+    expect(sayHello().run().return).toBe('Hello!');
+    expect(displayName.get().run().return).toContain('Mr');
+  });
+
+  describe('getter/setter', () => {
+    it('applys context value to getter', () => {
+      const result = displayName.get().run({ name: 'Tom' });
+      expect(result.return).toBe('Mr. Tom');
+    });
+
+    it('emits event by setter', () => {
+      const result = displayName.set('Tom').run();
+      expect(result.$emit).toBeCalledWith('change-name', 'Tom');
+    });
+  })
+});
+```
 
 ## License
 MIT

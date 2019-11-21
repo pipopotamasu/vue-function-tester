@@ -1,41 +1,58 @@
 import Result from './result';
+import { createBaseContext } from './uitls/context';
 
-type BaseContext = {
-  [key: string]: any;
-};
-
+interface MockFunction {
+  (...args: any): any;
+  run: Function;
+  r: Function;
+}
 interface MockMethods {
-  [key: string]: Function;
+  [key: string]: MockFunction | ReturnType<typeof jest.fn>;
 }
 
-const baseContext: BaseContext = {
-  $emit: jest.fn()
-};
+function createMockFunction(
+  methods: { [key: string]: Function },
+  methodName: string
+) {
+  const mockMethods = { ...methods } as MockMethods;
+  const createRunner = (args: any[] | null = null) => (
+    injectContext: Record<string, any>
+  ) => {
+    Object.keys(methods).forEach((k) => {
+      if (methodName !== k) mockMethods[k] = jest.fn();
+    });
+    const context = Object.assign(
+      {},
+      createBaseContext(),
+      mockMethods,
+      injectContext
+    );
+    const returnVal = methods[methodName].apply(context, args ? args : []);
 
-function createMockFunction(methods: MockMethods, methodName: string) {
-  return function(...args: any) {
+    return new Result(returnVal, context);
+  };
+
+  const mockFn: MockFunction = (...args: any[]) => {
     return {
-      run: (injectContext: Record<string, any>) => {
-        Object.keys(methods).forEach((k) => {
-          if (methodName !== k) methods[k] = jest.fn();
-        });
-        const context = Object.assign({}, baseContext, methods, injectContext);
-        const returnVal = methods[methodName].apply(context, args);
-
-        return new Result(returnVal, context);
-      }
+      run: createRunner(args),
+      r: createRunner(args)
     };
   };
+  mockFn.run = mockFn.r = createRunner();
+  return mockFn;
 }
 
 export default function methods(component: any) {
+  if (typeof component !== 'object' && typeof component !== 'function') {
+    throw new Error('Illegal component. component must be object or function.');
+  }
   const methods = component.options
     ? component.options.methods // VueConstructor
-    : component.methods; // Not VueConstructor
+    : component?.methods; // Not VueConstructor
 
   if (!methods) throw new Error('Not exists method.');
 
-  const mockMethods: MockMethods = {};
+  const mockMethods: { [key: string]: MockFunction } = {};
   Object.keys(methods).forEach((key) => {
     mockMethods[key] = createMockFunction({ ...methods }, key);
   });

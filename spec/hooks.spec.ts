@@ -1,6 +1,7 @@
 import SampleComponent from '@spec/SampleComponent.vue';
-import NoMethodComponent from '@spec/NoMethodComponent.vue';
+import BlankComponent from '@spec/BlankComponent.vue';
 import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
+import InvalidComponent from '@spec/InvalidComponent.vue';
 import { hooks } from '@src/index';
 
 describe('Methods', () => {
@@ -36,33 +37,40 @@ describe('Methods', () => {
     });
   });
 
-  // TODO: resolve typescript issue
-  // describe('additional hooks', () => {
-  //   describe('register additional hooks', () => {
-  //     it('returns mock function', () => {
-  //       const { beforeRouteEnter } = hooks(SampleComponent, [
-  //         'beforeRouteEnter'
-  //       ]);
-  //       const next = jest.fn();
-  //       expect(typeof beforeRouteEnter).toBe('function');
-  //       beforeRouteEnter('', '', next).run();
-  //       expect(next).toBeCalled();
-  //     });
-  //   });
+  describe('additional hooks', () => {
+    describe('register additional hooks', () => {
+      it('returns mock function', () => {
+        const { beforeRouteEnter } = hooks(SampleComponent, [
+          'beforeRouteEnter'
+        ]);
+        const next = jest.fn();
+        expect(typeof beforeRouteEnter).toBe('function');
+        beforeRouteEnter('', '', next).run();
+        expect(next).toBeCalled();
+      });
+    });
 
-  //   describe('no additional hooks', () => {
-  //     it('returns undefined', () => {
-  //       const { beforeRouteEnter } = hooks(SampleComponent);
-  //       expect(typeof beforeRouteEnter).toBe('undefined');
-  //     });
-  //   });
-  // });
+    describe('no additional hooks', () => {
+      it('returns undefined', () => {
+        const { beforeRouteEnter } = hooks(SampleComponent);
+        expect(typeof beforeRouteEnter).toBe('undefined');
+      });
+    });
+  });
 
   describe('no method', () => {
     it('throws no hook error', () => {
       expect(() => {
-        hooks(NoMethodComponent);
+        hooks(BlankComponent);
       }).toThrow('Not exists hook.');
+    });
+  });
+
+  describe('invalid component', () => {
+    it('throws no invalid component error', () => {
+      expect(() => {
+        hooks(InvalidComponent);
+      }).toThrow('Illegal component. component must be object or function.');
     });
   });
 
@@ -71,6 +79,22 @@ describe('Methods', () => {
       const { created } = hooks(PlaneObjectComponent);
       expect(typeof created).toBe('function');
       expect(created().run().return).toBe(undefined);
+    });
+  });
+
+  describe('alias', () => {
+    const { created } = hooks(SampleComponent);
+
+    it('returns value by alias "r"', () => {
+      expect(created().r().return).toBe(undefined);
+    });
+
+    it('returns value by function property alias "run"', () => {
+      expect(created.run().return).toBe(undefined);
+    });
+
+    it('returns value by function property alias "r"', () => {
+      expect(created.r().return).toBe(undefined);
     });
   });
 });

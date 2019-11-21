@@ -2,15 +2,37 @@
   <div>test</div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue';
 
 export default Vue.extend({
+  props: {
+    name: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       updatedCount: 0,
       liked: false
     };
+  },
+  beforeRouteEnter(_to, _from, next) {
+    next();
+  },
+  computed: {
+    sayHello() {
+      return 'Hello!';
+    },
+    displayName: {
+      get() {
+        return `Mr. ${this.name}`;
+      },
+      set(newName) {
+        this.$emit('change-name', newName);
+      }
+    }
   },
   created() {
     this.otherMethod();
@@ -18,15 +40,11 @@ export default Vue.extend({
   updated() {
     this.updatedCount++;
   },
-  // TODO: resolve typescript issue
-  // beforeRouteEnter(_to: string, _from: string, next: Function) {
-  //   next();
-  // },
   methods: {
     sayHi() {
       return 'Hi!';
     },
-    sayHiWithName(firstname: string, lastname: string) {
+    sayHiWithName(firstname, lastname) {
       return `Hi, ${firstname} ${lastname}!`;
     },
     like() {

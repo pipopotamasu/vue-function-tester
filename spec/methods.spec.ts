@@ -1,6 +1,7 @@
 import SampleComponent from '@spec/SampleComponent.vue';
-import NoMethodComponent from '@spec/NoMethodComponent.vue';
+import BlankComponent from '@spec/BlankComponent.vue';
 import PlaneObjectComponent from '@spec/PlaneObjectComponent.vue';
+import InvalidComponent from '@spec/InvalidComponent.vue';
 import { methods } from '@src/index';
 
 describe('Methods', () => {
@@ -62,8 +63,16 @@ describe('Methods', () => {
   describe('no method', () => {
     it('throws no method error', () => {
       expect(() => {
-        methods(NoMethodComponent);
+        methods(BlankComponent);
       }).toThrow('Not exists method.');
+    });
+  });
+
+  describe('invalid component', () => {
+    it('throws no invalid component error', () => {
+      expect(() => {
+        methods(InvalidComponent);
+      }).toThrow('Illegal component. component must be object or function.');
     });
   });
 
@@ -72,6 +81,22 @@ describe('Methods', () => {
       const { sayHi } = methods(PlaneObjectComponent);
       expect(typeof sayHi).toBe('function');
       expect(sayHi().run().return).toBe('Hi');
+    });
+  });
+
+  describe('alias', () => {
+    const { sayHi } = methods(SampleComponent);
+
+    it('returns value by alias "r"', () => {
+      expect(sayHi().r().return).toBe('Hi!');
+    });
+
+    it('returns value by function property alias "run"', () => {
+      expect(sayHi.run().return).toBe('Hi!');
+    });
+
+    it('returns value by function property alias "r"', () => {
+      expect(sayHi.r().return).toBe('Hi!');
     });
   });
 });

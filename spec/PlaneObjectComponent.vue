@@ -2,8 +2,13 @@
   <div>test</div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
+  computed: {
+    sayHello() {
+      return 'Hello';
+    }
+  },
   created() {}, // eslint-disable-line @typescript-eslint/no-empty-function
   methods: {
     sayHi() {
