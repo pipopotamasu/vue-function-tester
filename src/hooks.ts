@@ -12,15 +12,6 @@ const LIFECYCLE_HOOKS = [
   'destroyed'
 ];
 
-interface MockFunction {
-  (...args: any): any;
-  run: Function;
-  r: Function;
-}
-interface MockFunctions {
-  [key: string]: MockFunction | ReturnType<typeof jest.fn>;
-}
-
 function createMockFunction(
   funcs: { [key: string]: Function },
   funcName: string

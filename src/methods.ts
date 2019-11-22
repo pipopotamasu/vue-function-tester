@@ -1,20 +1,11 @@
 import Result from './result';
 import { createBaseContext } from './uitls/context';
 
-interface MockFunction {
-  (...args: any): any;
-  run: Function;
-  r: Function;
-}
-interface MockMethods {
-  [key: string]: MockFunction | ReturnType<typeof jest.fn>;
-}
-
 function createMockFunction(
   methods: { [key: string]: Function },
   methodName: string
 ) {
-  const mockMethods = { ...methods } as MockMethods;
+  const mockMethods = { ...methods } as MockFunctions;
   const createRunner = (args: any[] | null = null) => (
     injectContext: Record<string, any>
   ) => {

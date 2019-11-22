@@ -8,7 +8,7 @@ Supporting...
 - methods
 - lifecycle hooks
 - computed
-- watch (comming soon)
+- watch
 
 vue-function-helper dependents on [Jest](https://jestjs.io).
 
@@ -188,6 +188,59 @@ describe('Computed', () => {
       expect(result.$emit).toBeCalledWith('change-name', 'Tom');
     });
   })
+});
+```
+
+### watch
+See [spec](https://github.com/pipopotamasu/vue-function-tester/blob/master/spec/watch.spec.ts) if you want more detailed examples.
+
+```js
+// SampleComponent.vue
+export default {
+  props: {
+    count: {
+      type: Number,
+      required: true
+    }
+  },
+  data () {
+    return {
+      output: ''
+    }
+  },
+  watch: {
+    count (newVal) {
+      if (newVal % 15 === 0) {
+        this.output = 'Fizz Buzz'
+      } else {
+        this.otherMethod();
+      }
+    }
+  },
+  methods: {
+    otherMethod () { ... }
+  }
+});
+
+// yourWatchTest.spec.js
+import SampleComponent from './SampleComponent.vue';
+import { watch } from 'vue-function-tester';
+
+describe('Watch', () => {
+  const { count } = watch(SampleComponent);
+
+  describe('mock methods', () => {
+    it('calls other method', () => {
+      expect(count(1).run().otherMethod).toBeCalled();
+    });
+  });
+
+  describe('context', () => {
+    it('chaneges output', () => {
+      const result = count(15).run({ output: '' });
+      expect(result.output).toBe('Fizz Buzz');
+    });
+  });
 });
 ```
 
