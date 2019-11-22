@@ -1,12 +1,6 @@
 import Result from './result';
 import { createBaseContext } from './uitls/context';
 
-interface MockFunction {
-  (...args: any): any;
-  run: Function;
-  r: Function;
-}
-
 interface MockObject {
   get?: Function;
   set?: Function;
