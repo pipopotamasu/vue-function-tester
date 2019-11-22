@@ -18,13 +18,13 @@ describe('Watch', () => {
 
     describe('mock methods', () => {
       it('calls other method', () => {
-        expect(count(1, 0).run().otherMethod).toBeCalled();
+        expect(count(1).run().otherMethod).toBeCalled();
       });
     });
 
     describe('context', () => {
       it('chaneges context value', () => {
-        const result = count(15, 0).run({ output: '' });
+        const result = count(15).run({ output: '' });
         expect(result.output).toBe('Fizz Buzz');
       });
     });
@@ -50,7 +50,7 @@ describe('Watch', () => {
     it('returns mock function', () => {
       const { count } = watch(PlaneObjectComponent);
       expect(typeof count).toBe('function');
-      expect(count(1, 0).run().return).toBe(undefined);
+      expect(count().run().return).toBe(undefined);
     });
   });
 
@@ -58,7 +58,7 @@ describe('Watch', () => {
     const { count } = watch(SampleComponent);
 
     it('returns value by alias "r"', () => {
-      expect(count(1, 0).r().return).toBe(undefined);
+      expect(count(1).r().return).toBe(undefined);
     });
 
     it('returns value by function property alias "run"', () => {
