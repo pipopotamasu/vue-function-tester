@@ -1,8 +1,8 @@
 # vue-function-tester
-vue-function-tester makes Vue.js function tests easier and shorter by providing mock functions and helper objects.
+vue-function-tester makes method unit testing for Vue components easier and shorter by providing mock functions and helper objects.
 
 ## Features
-Providing mock functions and helper objects from your Vue.js components for testing and they help to reduce steps.
+Providing mock functions and helper objects for unit testing and they help to reduce steps and codes.
 
 Supporting...
 - methods
@@ -189,6 +189,22 @@ describe('Computed', () => {
     });
   })
 });
+```
+
+### alias
+vue-function-test provides some alias.
+
+```js
+
+// normal usage
+expect(sayHi().run().return).toBe('Hi!');
+
+// shorten run
+expect(sayHi().r().return).toBe('Hi!');
+
+// function properties
+expect(sayHi.run().return).toBe('Hi!');
+expect(sayHi.r().return).toBe('Hi!');
 ```
 
 ## License
