@@ -4,10 +4,19 @@
 
 <script>
 export default {
+  props: {
+    count: {
+      type: Number,
+      required: true
+    }
+  },
   computed: {
     sayHello() {
       return 'Hello';
     }
+  },
+  watch: {
+    count() {} // eslint-disable-line @typescript-eslint/no-empty-function
   },
   created() {}, // eslint-disable-line @typescript-eslint/no-empty-function
   methods: {

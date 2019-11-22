@@ -10,10 +10,15 @@ export default Vue.extend({
     name: {
       type: String,
       required: true
+    },
+    count: {
+      type: Number,
+      required: true
     }
   },
   data() {
     return {
+      output: '',
       updatedCount: 0,
       liked: false
     };
@@ -31,6 +36,19 @@ export default Vue.extend({
       },
       set(newName) {
         this.$emit('change-name', newName);
+      }
+    }
+  },
+  watch: {
+    count(newVal) {
+      if (newVal % 15 === 0) {
+        this.output = 'Fizz Buzz';
+      } else if (newVal % 3 === 0) {
+        this.output = 'Fizz';
+      } else if (newVal % 5 === 0) {
+        this.output = 'Buzz';
+      } else {
+        this.otherMethod();
       }
     }
   },
