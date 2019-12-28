@@ -97,4 +97,14 @@ describe('Methods', () => {
       expect(mounted.r().return).toBe(undefined);
     });
   });
+
+  describe('async', () => {
+    const { created } = hooks(SampleComponent);
+
+    it('finishs loading', async () => {
+      const result = await created.r();
+      expect(result.loading).toBe(false);
+      expect(result.asyncMethod).toBeCalled();
+    });
+  });
 });

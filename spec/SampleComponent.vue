@@ -20,7 +20,8 @@ export default Vue.extend({
     return {
       output: '',
       updatedCount: 0,
-      liked: false
+      liked: false,
+      loading: false
     };
   },
   beforeRouteEnter(_to, _from, next) {
@@ -52,8 +53,10 @@ export default Vue.extend({
       }
     }
   },
-  created() {
-    this.otherMethod();
+  async created() {
+    this.loading = true;
+    await this.asyncMethod();
+    this.loading = false;
   },
   updated() {
     this.updatedCount++;
