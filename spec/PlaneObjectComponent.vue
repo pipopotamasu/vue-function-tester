@@ -18,7 +18,7 @@ export default {
   watch: {
     count() {} // eslint-disable-line @typescript-eslint/no-empty-function
   },
-  created() {}, // eslint-disable-line @typescript-eslint/no-empty-function
+  mounted() {}, // eslint-disable-line @typescript-eslint/no-empty-function
   methods: {
     sayHi() {
       return 'Hi';

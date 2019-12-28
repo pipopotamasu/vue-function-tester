@@ -7,25 +7,25 @@ import { hooks } from '@src/index';
 describe('Methods', () => {
   describe('extraction', () => {
     it('extracts hooks', () => {
-      const { created } = hooks(SampleComponent);
-      expect(typeof created).toBe('function');
-      expect(typeof created()).toBe('object');
+      const { mounted } = hooks(SampleComponent);
+      expect(typeof mounted).toBe('function');
+      expect(typeof mounted()).toBe('object');
     });
   });
 
   describe('mock', () => {
-    const { created, updated } = hooks(SampleComponent);
+    const { mounted, updated } = hooks(SampleComponent);
 
     describe('mock methods', () => {
       it('calls other method', () => {
-        expect(created().run().otherMethod).toBeCalled();
+        expect(mounted().run().otherMethod).toBeCalled();
       });
     });
 
     describe('return', () => {
       it('returns value', () => {
-        const { created } = hooks(SampleComponent);
-        expect(created().run().return).toBe(undefined);
+        const { mounted } = hooks(SampleComponent);
+        expect(mounted().run().return).toBe(undefined);
       });
     });
 
@@ -76,25 +76,35 @@ describe('Methods', () => {
 
   describe('plane object', () => {
     it('returns mock function', () => {
-      const { created } = hooks(PlaneObjectComponent);
-      expect(typeof created).toBe('function');
-      expect(created().run().return).toBe(undefined);
+      const { mounted } = hooks(PlaneObjectComponent);
+      expect(typeof mounted).toBe('function');
+      expect(mounted().run().return).toBe(undefined);
     });
   });
 
   describe('alias', () => {
-    const { created } = hooks(SampleComponent);
+    const { mounted } = hooks(SampleComponent);
 
     it('returns value by alias "r"', () => {
-      expect(created().r().return).toBe(undefined);
+      expect(mounted().r().return).toBe(undefined);
     });
 
     it('returns value by function property alias "run"', () => {
-      expect(created.run().return).toBe(undefined);
+      expect(mounted.run().return).toBe(undefined);
     });
 
     it('returns value by function property alias "r"', () => {
-      expect(created.r().return).toBe(undefined);
+      expect(mounted.r().return).toBe(undefined);
+    });
+  });
+
+  describe('async', () => {
+    const { created } = hooks(SampleComponent);
+
+    it('finishs loading', async () => {
+      const result = await created.r();
+      expect(result.loading).toBe(false);
+      expect(result.asyncMethod).toBeCalled();
     });
   });
 });
