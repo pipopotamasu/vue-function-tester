@@ -51,7 +51,19 @@ export default {
     },
     emitEvent () {
       this.$emit('some-event', 'value')
-    }
+    },
+    async asyncMethod() {
+      let returnVal = '';
+      const sleep = () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            returnVal = 'returned!';
+            resolve();
+          }, 100);
+        });
+      await sleep();
+      return returnVal;
+    },
   }
 }
 
@@ -61,7 +73,7 @@ import { methods } from 'vue-function-tester';
 
 describe('Methods', () => {
   // extracts mock methods from your component.
-  const { sayHi, sayHiWithName, like, callOtherMethod } = methods(SampleComponent);
+  const { sayHi, sayHiWithName, like, callOtherMethod, emitEvent, asyncMethod } = methods(SampleComponent);
 
   it('returns value', () => {
     const result = sayHi().run();
@@ -96,6 +108,11 @@ describe('Methods', () => {
     const result = emitEvent().run();
     expect(result.$emit).toBeCalledWith('some-event', 'value');
   });
+
+  it('returns val by async/await', async () => {
+    const result = await asyncMethod().run();
+    expect(result.return).toBe('returned!');
+  });
 });
 
 ```
@@ -108,7 +125,13 @@ export default {
   data() {
     return {
       updatedCount: 0,
+      loading: false
     };
+  },
+  async created () {
+    this.loading = true;
+    await this.asyncMethod();
+    this.loading = false;
   },
   mounted() {
     this.otherMethod();
@@ -118,6 +141,11 @@ export default {
   },
   beforeRouteEnter(_to: string, _from: string, next: Function) {
     next();
+  },
+  methods: {
+    async asyncMethod () {
+      // ...
+    }
   }
 });
 
@@ -126,7 +154,7 @@ import SampleComponent from './SampleComponent.vue';
 import { hooks } from 'vue-function-tester';
 
 describe('Lifecycle Hooks', () => {
-  const { mounted, updated, beforeRouteEnter } = hooks(SampleComponent);
+  const { mounted, updated, beforeRouteEnter, created } = hooks(SampleComponent);
 
   it('calls other method', () => {
     expect(mounted().run().otherMethod).toBeCalled();
@@ -140,6 +168,12 @@ describe('Lifecycle Hooks', () => {
     const next = jest.fn();
     beforeRouteEnter('', '', next).run()
     expect(next).toBeCalled();
+  });
+
+  it('finishs loading with async method', async () => {
+    const result = await created.r();
+    expect(result.loading).toBe(false);
+    expect(result.asyncMethod).toBeCalled();
   });
 });
 ```
