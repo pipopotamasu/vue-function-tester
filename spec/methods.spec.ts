@@ -99,4 +99,22 @@ describe('Methods', () => {
       expect(sayHi.r().return).toBe('Hi!');
     });
   });
+
+  describe('async', () => {
+    const { asyncMethod } = methods(SampleComponent);
+
+    describe('no async await', () => {
+      it('returns undefined', () => {
+        const result = asyncMethod.r();
+        expect(result.return).toBe(undefined);
+      });
+    });
+
+    describe('with async await', () => {
+      it('returns string literal', async () => {
+        const result = await asyncMethod.r();
+        expect(result.return).toBe('returned!');
+      });
+    });
+  });
 });
