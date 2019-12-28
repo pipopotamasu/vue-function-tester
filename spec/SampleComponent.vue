@@ -76,6 +76,18 @@ export default Vue.extend({
     },
     emitEvent() {
       this.$emit('some-event', 'value');
+    },
+    async asyncMethod() {
+      let returnVal = '';
+      const sleep = () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            returnVal = 'returned!';
+            resolve();
+          }, 100);
+        });
+      await sleep();
+      return returnVal;
     }
   }
 });

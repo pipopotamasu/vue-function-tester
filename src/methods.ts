@@ -6,21 +6,37 @@ function createMockFunction(
   methodName: string
 ) {
   const mockMethods = { ...methods } as MockFunctions;
-  const createRunner = (args: any[] | null = null) => (
-    injectContext: Record<string, any>
-  ) => {
+  const createRunner = (args: any[] | null = null) => {
     Object.keys(methods).forEach((k) => {
       if (methodName !== k) mockMethods[k] = jest.fn();
     });
-    const context = Object.assign(
-      {},
-      createBaseContext(),
-      mockMethods,
-      injectContext
-    );
-    const returnVal = methods[methodName].apply(context, args ? args : []);
 
-    return new Result(returnVal, context);
+    const targetMethod = methods[methodName];
+    if (targetMethod.constructor.name === 'AsyncFunction') {
+      return async (injectContext: Record<string, any>) => {
+        const context = Object.assign(
+          {},
+          createBaseContext(),
+          mockMethods,
+          injectContext
+        );
+
+        const returnVal = await targetMethod.apply(context, args ? args : []);
+        return new Result(returnVal, context);
+      };
+    }
+
+    return (injectContext: Record<string, any>) => {
+      const context = Object.assign(
+        {},
+        createBaseContext(),
+        mockMethods,
+        injectContext
+      );
+
+      const returnVal = targetMethod.apply(context, args ? args : []);
+      return new Result(returnVal, context);
+    };
   };
 
   const mockFn: MockFunction = (...args: any[]) => {
