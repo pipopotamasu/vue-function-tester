@@ -58,6 +58,9 @@ export default Vue.extend({
   updated() {
     this.updatedCount++;
   },
+  mounted() {
+    this.otherMethod();
+  },
   methods: {
     sayHi() {
       return 'Hi!';

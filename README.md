@@ -110,7 +110,7 @@ export default {
       updatedCount: 0,
     };
   },
-  created() {
+  mounted() {
     this.otherMethod();
   },
   updated() {
@@ -126,10 +126,10 @@ import SampleComponent from './SampleComponent.vue';
 import { hooks } from 'vue-function-tester';
 
 describe('Lifecycle Hooks', () => {
-  const { created, updated, beforeRouteEnter } = hooks(SampleComponent);
+  const { mounted, updated, beforeRouteEnter } = hooks(SampleComponent);
 
   it('calls other method', () => {
-    expect(created().run().otherMethod).toBeCalled();
+    expect(mounted().run().otherMethod).toBeCalled();
   });
 
   it('registers additional hooks', () => {
